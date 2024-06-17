@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaires</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="flex w-full h-full">
+        <!-- Sidebar -->
+        <div class="w-1/4 bg-gray-800 h-full text-white">
+            <div class="p-4 text-center text-xl font-bold">Dashboard</div>
+            <ul class="mt-10">
+                <li><a href="/" class="block p-4 hover:bg-gray-600">Home</a></li>
+                <li><a href="addcategorie.html" class="block p-4 hover:bg-gray-600">Ajout Categories</a></li>
+                <li><a href="AddedCantiques.html" class="block p-4 hover:bg-gray-600">Ajout Cantiques</a></li>
+                <li><a href="Addedocument.html" class="block p-4 hover:bg-gray-600">Ajout Document Celeste</a></li>
+                <li><a href="AddedFormation.html" class="block p-4 hover:bg-gray-600">Ajout Des Formation</a></li>
+                <li><a href="AddedEglise.html" class="block p-4 hover:bg-gray-600">Ajout Des Eglises</a></li>
+                <li><a href="Cantiques.html" class="block p-4 hover:bg-gray-600">Les Cantiques</a></li>
+                <li><a href="Documents.html" class="block p-4 hover:bg-gray-600">Les Document Celeste</a></li>
+                <li><a href="Eglises.html" class="block p-4 hover:bg-gray-600">Les Églises</a></li>
+                <li><a href="Acapelas.html" class="block p-4 hover:bg-gray-600">Les Acapelas</a></li>
+              </ul>
+          </div>
+         <!-- Main Content -->
+         <div class="bg-white p-8 rounded-lg shadow-md w-3/4 mx-auto my-10">
+            <h2 class="text-2xl font-bold mb-6 text-center">Formulaire d'Ajout des Cantiques</h2>
+            <form>
+              <!-- Titre -->
+              <div class="mb-4">
+                <label for="title" class="block text-gray-700 font-bold mb-2">Titre:</label>
+                <input type="text" id="title" name="title" placeholder="Titre du cantique" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              </div>
+              <!-- Catégorie -->
+              <div class="mb-4">
+                <label for="category" class="block text-gray-700 font-bold mb-2">Catégorie:</label>
+                <select id="category" name="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <option value="general">Général</option>
+                  <option value="support">Support</option>
+                  <option value="sales">Ventes</option>
+                </select>
+              </div>
+              <!-- Cantiques Écrits -->
+              <div class="mb-4">
+                <label for="writtenCantique" class="block text-gray-700 font-bold mb-2">Cantiques Écrits:</label>
+                <textarea id="writtenCantique" name="writtenCantique" placeholder="Cantiques" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+              </div>
+              <!-- Cantiques Audio -->
+              <div class="mb-4">
+                <label for="audioCantique" class="block text-gray-700 font-bold mb-2">Cantiques Audio:</label>
+                <input type="file" id="audioCantique" name="audioCantique" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              </div>
+              <!-- Bouton de soumission -->
+              <div class="flex items-center justify-center">
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Envoyer</button>
+              </div>
+            </form>
+          </div>
+      </div>
+</body>
+</html>

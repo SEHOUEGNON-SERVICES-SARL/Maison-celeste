@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste des Cantiques</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 h-screen flex">
+  <!-- Sidebar -->
+  <div class="w-1/4 bg-gray-800 text-white flex flex-col">
+    <div class="p-4 text-center text-xl font-bold">Dashboard</div>
+    <ul class="mt-10">
+        <li><a href="/" class="block p-4 hover:bg-gray-600">Home</a></li>
+        <li><a href="addcategorie.html" class="block p-4 hover:bg-gray-600">Ajout Categories</a></li>
+        <li><a href="AddedCantiques.html" class="block p-4 hover:bg-gray-600">Ajout Cantiques</a></li>
+        <li><a href="Addedocument.html" class="block p-4 hover:bg-gray-600">Ajout Document Celeste</a></li>
+        <li><a href="AddedFormation.html" class="block p-4 hover:bg-gray-600">Ajout Des Formation</a></li>
+        <li><a href="AddedEglise.html" class="block p-4 hover:bg-gray-600">Ajout Des Eglises</a></li>
+        <li><a href="Cantiques.html" class="block p-4 hover:bg-gray-600">Les Cantiques</a></li>
+        <li><a href="Documents.html" class="block p-4 hover:bg-gray-600">Les Document Celeste</a></li>
+        <li><a href="Eglises.html" class="block p-4 hover:bg-gray-600">Les Églises</a></li>
+        <li><a href="Acapelas.html" class="block p-4 hover:bg-gray-600">Les Acapelas</a></li>
+      </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-8">
+    <h1 class="text-3xl font-bold mb-8 text-center">Liste des Cantiques</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Cantique 1 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-4">
+          <h2 class="text-xl font-bold">Cantique 1</h2>
+          <p class="text-gray-700">Catégorie: Louange</p>
+          <p class="text-gray-700 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+        </div>
+        <audio controls class="w-full px-4 pb-4">
+          <source src="path/to/audio1.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <!-- Cantique 2 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-4">
+          <h2 class="text-xl font-bold">Cantique 2</h2>
+          <p class="text-gray-700">Catégorie: Adoration</p>
+          <p class="text-gray-700 mt-2">Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
+        </div>
+        <audio controls class="w-full px-4 pb-4">
+          <source src="path/to/audio2.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <!-- Cantique 3 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-4">
+          <h2 class="text-xl font-bold">Cantique 3</h2>
+          <p class="text-gray-700">Catégorie: Prière</p>
+          <p class="text-gray-700 mt-2">Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit.</p>
+        </div>
+        <audio controls class="w-full px-4 pb-4">
+          <source src="path/to/audio3.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <!-- Add more cantiques as needed -->
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter une catégorie</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="flex w-full h-full">
+    <!-- Sidebar -->
+    <div class="w-1/4 bg-gray-800 h-full text-white">
+      <div class="p-4 text-center text-xl font-bold">Dashboard</div>
+      <ul class="mt-10">
+        <li><a href="/" class="block p-4 hover:bg-gray-600">Home</a></li>
+        <li><a href="addcategorie.html" class="block p-4 hover:bg-gray-600">Ajout Categories</a></li>
+        <li><a href="AddedCantiques.html" class="block p-4 hover:bg-gray-600">Ajout Cantiques</a></li>
+        <li><a href="Addedocument.html" class="block p-4 hover:bg-gray-600">Ajout Document Celeste</a></li>
+        <li><a href="AddedFormation.html" class="block p-4 hover:bg-gray-600">Ajout Des Formation</a></li>
+        <li><a href="AddedEglise.html" class="block p-4 hover:bg-gray-600">Ajout Des Eglises</a></li>
+        <li><a href="Cantiques.html" class="block p-4 hover:bg-gray-600">Les Cantiques</a></li>
+        <li><a href="Documents.html" class="block p-4 hover:bg-gray-600">Les Document Celeste</a></li>
+        <li><a href="Eglises.html" class="block p-4 hover:bg-gray-600">Les Églises</a></li>
+        <li><a href="Acapelas.html" class="block p-4 hover:bg-gray-600">Les Acapelas</a></li>
+      </ul>
+    </div>
+    <!-- Main Content -->
+    <div class="flex-1 bg-white p-8 rounded-lg shadow-md">
+      <h1 class="text-2xl font-bold mb-6 text-center">Ajouter une catégorie</h1>
+      <form id="categorieForm">
+        <div class="mb-4">
+          <label for="nom" class="block text-gray-700 font-bold mb-2">Nom de la catégorie:</label>
+          <input type="text" id="nom" name="nom" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+          <label for="image" class="block text-gray-700 font-bold mb-2">URL de l'image:</label>
+          <input type="text" id="image" name="image" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="flex items-center justify-center">
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="categorie.js"></script>
+</body>
+</html>

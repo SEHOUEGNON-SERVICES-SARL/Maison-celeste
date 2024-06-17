@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste des Églises</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex">
+  <!-- Sidebar -->
+  <div class="w-1/4 bg-gray-800 text-white flex flex-col">
+    <div class="p-4 text-center text-xl font-bold">Dashboard</div>
+    <ul class="mt-10">
+        <li><a href="/" class="block p-4 hover:bg-gray-600">Home</a></li>
+        <li><a href="addcategorie.html" class="block p-4 hover:bg-gray-600">Ajout Categories</a></li>
+        <li><a href="AddedCantiques.html" class="block p-4 hover:bg-gray-600">Ajout Cantiques</a></li>
+        <li><a href="Addedocument.html" class="block p-4 hover:bg-gray-600">Ajout Document Celeste</a></li>
+        <li><a href="AddedFormation.html" class="block p-4 hover:bg-gray-600">Ajout Des Formation</a></li>
+        <li><a href="AddedEglise.html" class="block p-4 hover:bg-gray-600">Ajout Des Eglises</a></li>
+        <li><a href="Cantiques.html" class="block p-4 hover:bg-gray-600">Les Cantiques</a></li>
+        <li><a href="Documents.html" class="block p-4 hover:bg-gray-600">Les Document Celeste</a></li>
+        <li><a href="Eglises.html" class="block p-4 hover:bg-gray-600">Les Églises</a></li>
+        <li><a href="Acapelas.html" class="block p-4 hover:bg-gray-600">Les Acapelas</a></li>
+      </ul>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="flex-1 p-8">
+    <h1 class="text-3xl font-bold mb-8 text-center">Liste des Églises</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img class="w-full h-48 object-cover" src="https://via.placeholder.com/400x300" alt="Église 1">
+        <div class="p-4">
+          <h2 class="text-xl font-bold">Église Saint-Pierre</h2>
+          <p class="text-gray-700">123 Rue de l'Église, Paris</p>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img class="w-full h-48 object-cover" src="https://via.placeholder.com/400x300" alt="Église 2">
+        <div class="p-4">
+          <h2 class="text-xl font-bold">Église Notre-Dame</h2>
+          <p class="text-gray-700">456 Avenue des Champs, Lyon</p>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img class="w-full h-48 object-cover" src="https://via.placeholder.com/400x300" alt="Église 3">
+        <div class="p-4">
+          <h2 class="text-xl font-bold">Église Sainte-Marie</h2>
+          <p class="text-gray-700">789 Boulevard de la Paix, Marseille</p>
+        </div>
+      </div>
+      <!-- Add more cards as needed -->
+    </div>
+  </div>
+</body>
+</html>
