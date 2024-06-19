@@ -27,30 +27,36 @@
          <!-- Main Content -->
          <div class="bg-white p-8 rounded-lg shadow-md w-3/4 mx-auto my-10">
             <h2 class="text-2xl font-bold mb-6 text-center">Formulaire d'Ajout des Cantiques</h2>
-            <form>
+            <form id="addEgliseCelesteForm">
               <!-- Titre -->
               <div class="mb-4">
-                <label for="title" class="block text-gray-700 font-bold mb-2">Titre:</label>
-                <input type="text" id="title" name="title" placeholder="Titre du cantique" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="title" class="block text-gray-700 font-bold mb-2">Nom De l'Eglise:</label>
+                <input type="text" id="nom" name="nom" placeholder="Nom De l'Eglise" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
               </div>
               <!-- Catégorie -->
               <div class="mb-4">
                 <label for="category" class="block text-gray-700 font-bold mb-2">Catégorie:</label>
-                <select id="category" name="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                  <option value="general">Général</option>
-                  <option value="support">Support</option>
-                  <option value="sales">Ventes</option>
+                <select id="categorie_id" name="categorie_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <option value="5">Eglises Celeste</option>
                 </select>
               </div>
               <!-- Cantiques Écrits -->
               <div class="mb-4">
-                <label for="writtenCantique" class="block text-gray-700 font-bold mb-2">Cantiques Écrits:</label>
-                <textarea id="writtenCantique" name="writtenCantique" placeholder="Cantiques" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                <label for="writtenCantique" class="block text-gray-700 font-bold mb-2">Adresse:</label>
+                <textarea  id="adresse" name="adresse" placeholder="Cantiques" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
               </div>
               <!-- Cantiques Audio -->
               <div class="mb-4">
-                <label for="audioCantique" class="block text-gray-700 font-bold mb-2">Cantiques Audio:</label>
-                <input type="file" id="audioCantique" name="audioCantique" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="audioCantique" class="block text-gray-700 font-bold mb-2">Photo 1:</label>
+                <input type="file" id="image" name="image" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              </div>
+              <div class="mb-4">
+                <label for="audioCantique" class="block text-gray-700 font-bold mb-2">Photo 2:</label>
+                <input type="file" id="image1" name="image1" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              </div>
+              <div class="mb-4">
+                <label for="audioCantique" class="block text-gray-700 font-bold mb-2">Photo 3:</label>
+                <input type="file" id="image2" name="image2" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               </div>
               <!-- Bouton de soumission -->
               <div class="flex items-center justify-center">
@@ -59,5 +65,8 @@
             </form>
           </div>
       </div>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+      <script src="js/AddedEglise.js"></script>
 </body>
 </html>

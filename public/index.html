@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- Font Awesome -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 h-screen">
@@ -24,25 +26,36 @@
         <li><a href="Acapelas.html" class="block p-4 hover:bg-gray-600">Les Acapelas</a></li>
       </ul>
     </div>
+
+    <style>
+      /* Styles CSS pour les cartes d'informations */
+      .info-card {
+        background-color: #ffffff;
+        padding: 1rem;
+        margin: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .info-card h2 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+      .info-card p {
+        color: #666666;
+        margin-bottom: 1rem;
+      }
+    </style>
     <!-- Main content -->
     <div class="w-3/4 p-6">
       <h1 class="text-3xl font-bold mb-4">Welcome to the Dashboard</h1>
-      <div class="grid grid-cols-3 gap-4">
+      <div id="statsContainer" class="grid grid-cols-3 gap-4">
         <!-- Card 1 -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-2xl font-bold mb-2">Card Title 1</h2>
-          <p class="text-gray-700">This is a description of the card.</p>
-        </div>
+        
         <!-- Card 2 -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-2xl font-bold mb-2">Card Title 2</h2>
-          <p class="text-gray-700">This is a description of the card.</p>
-        </div>
+        
         <!-- Card 3 -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-2xl font-bold mb-2">Card Title 3</h2>
-          <p class="text-gray-700">This is a description of the card.</p>
-        </div>
+       
       </div>
       <!-- Charts Section -->
       <div class="mt-8">
@@ -50,10 +63,14 @@
         <div class="bg-white p-6 rounded-lg shadow-md">
           <p class="text-gray-700">Here you can display some charts.</p>
           <!-- Placeholder for charts -->
-          <div class="h-64 bg-gray-200 rounded-lg mt-4"></div>
+          <div class="bg-gray-200 rounded-lg mt-10">
+            <canvas id="myChart" class="h-64 bg-gray-200 rounded-lg mt-4"></canvas>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/ShowTotale.js"></script>
 </body>
 </html>

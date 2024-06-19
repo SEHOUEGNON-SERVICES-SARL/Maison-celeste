@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulaires</title>
+  <title>Ajouter un Document Céleste</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
@@ -26,38 +26,38 @@
           </div>
          <!-- Main Content -->
          <div class="bg-white p-8 rounded-lg shadow-md w-3/4 mx-auto my-10">
-            <h2 class="text-2xl font-bold mb-6 text-center">Formulaire d'Ajout des Cantiques</h2>
-            <form>
+            <h2 class="text-2xl font-bold mb-6 text-center">Formulaire d'Ajout des Documents Celeste</h2>
+            <form id="addDocumentCelesteForm">
               <!-- Titre -->
               <div class="mb-4">
                 <label for="title" class="block text-gray-700 font-bold mb-2">Titre:</label>
-                <input type="text" id="title" name="title" placeholder="Titre du cantique" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="text" id="titre" name="titre" placeholder="Titre du document" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               </div>
               <!-- Catégorie -->
               <div class="mb-4">
                 <label for="category" class="block text-gray-700 font-bold mb-2">Catégorie:</label>
-                <select id="category" name="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                  <option value="general">Général</option>
-                  <option value="support">Support</option>
-                  <option value="sales">Ventes</option>
+                <select id="categorie_id" name="categorie_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <option value="3">Document Celeste</option>
                 </select>
               </div>
               <!-- Cantiques Écrits -->
               <div class="mb-4">
-                <label for="writtenCantique" class="block text-gray-700 font-bold mb-2">Cantiques Écrits:</label>
-                <textarea id="writtenCantique" name="writtenCantique" placeholder="Cantiques" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                <label for="writtenCantique" class="block text-gray-700 font-bold mb-2">Description:</label>
+                <textarea id="description" name="description" placeholder="Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
               </div>
               <!-- Cantiques Audio -->
               <div class="mb-4">
-                <label for="audioCantique" class="block text-gray-700 font-bold mb-2">Cantiques Audio:</label>
-                <input type="file" id="audioCantique" name="audioCantique" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="audioCantique" class="block text-gray-700 font-bold mb-2">Fichier PDF:</label>
+                <input type="file" id="fichier" name="fichier" accept="application/pdf" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               </div>
               <!-- Bouton de soumission -->
               <div class="flex items-center justify-center">
-                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Envoyer</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Ajouter Document</button>
               </div>
             </form>
           </div>
       </div>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script src="js/AddedDocument.js"></script>
 </body>
 </html>

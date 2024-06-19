@@ -1,11 +1,22 @@
 // routes.js
 const express = require('express');
+const admin = require('firebase-admin');
+const fs = require('fs');
+const serviceAccount = require('./serviceAccountKey.json'); // Chemin vers la clé privée du service Firebase
 const multer = require('multer'); // Middleware pour gérer les fichiers multipart/form-data
 const router = express.Router();
 const db = require('./db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config(); // Charger les variables d'environnement depuis .env
+
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'gs://novoxia-53074.appspot.com' // Remplacez par l'URL de votre bucket Firebase Storage
+});
+
+const bucket = admin.storage().bucket();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -18,6 +29,74 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+router.get('/totals', (req, res) => {
+  let totals = {};
+
+  // Requête pour compter le nombre d'utilisateurs
+  db.query('SELECT COUNT(*) AS total_users FROM users', (err, results) => {
+    if (err) {
+      console.error('Erreur lors du comptage des utilisateurs :', err);
+      res.status(500).json({ message: 'Erreur lors du comptage des utilisateurs' });
+      return;
+    }
+    totals.users = results[0].total_users;
+
+    // Requête pour compter le nombre d'acapelas
+    db.query('SELECT COUNT(*) AS total_acapelas FROM acapela', (err, results) => {
+      if (err) {
+        console.error('Erreur lors du comptage des acapelas :', err);
+        res.status(500).json({ message: 'Erreur lors du comptage des acapelas' });
+        return;
+      }
+      totals.acapelas = results[0].total_acapelas;
+
+      // Requête pour compter le nombre de cantiques
+      db.query('SELECT COUNT(*) AS total_cantiques FROM cantique', (err, results) => {
+        if (err) {
+          console.error('Erreur lors du comptage des cantiques :', err);
+          res.status(500).json({ message: 'Erreur lors du comptage des cantiques' });
+          return;
+        }
+        totals.cantiques = results[0].total_cantiques;
+
+        // Requête pour compter le nombre de documents célestes
+        db.query('SELECT COUNT(*) AS total_documents FROM document_celeste', (err, results) => {
+          if (err) {
+            console.error('Erreur lors du comptage des documents célestes :', err);
+            res.status(500).json({ message: 'Erreur lors du comptage des documents célestes' });
+            return;
+          }
+          totals.documents_celestes = results[0].total_documents;
+
+          // Requête pour compter le nombre d'églises célestes
+          db.query('SELECT COUNT(*) AS total_eglises FROM eglise_celeste', (err, results) => {
+            if (err) {
+              console.error('Erreur lors du comptage des églises célestes :', err);
+              res.status(500).json({ message: 'Erreur lors du comptage des églises célestes' });
+              return;
+            }
+            totals.eglises_celestes = results[0].total_eglises;
+
+            // Requête pour compter le nombre de formations professionnelles
+            db.query('SELECT COUNT(*) AS total_formations FROM formation_pro', (err, results) => {
+              if (err) {
+                console.error('Erreur lors du comptage des formations professionnelles :', err);
+                res.status(500).json({ message: 'Erreur lors du comptage des formations professionnelles' });
+                return;
+              }
+              totals.formations_pro = results[0].total_formations;
+
+              // Renvoyer les totaux sous forme de réponse JSON
+              res.json(totals);
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
 
 // Route pour récupérer toutes les catégories
 router.get('/categories', (req, res) => {
@@ -66,7 +145,6 @@ router.post('/auth', (req, res) => {
     return res.status(400).json({ message: 'Le numéro de téléphone est requis' });
   }
 
-  // Vérification de l'existence de l'utilisateur
   const checkUserQuery = 'SELECT * FROM users WHERE tel = ?';
   db.query(checkUserQuery, [tel], (err, result) => {
     if (err) {
@@ -75,12 +153,10 @@ router.post('/auth', (req, res) => {
     }
 
     if (result.length > 0) {
-      // L'utilisateur existe, générer un token JWT pour la connexion
       const user = result[0];
       const token = jwt.sign({ id: user.id, tel: user.tel }, process.env.JWT_SECRET, { expiresIn: '1h' });
       return res.json({ id: user.id, token, message: 'Connexion réussie' });
     } else {
-      // L'utilisateur n'existe pas, l'inscrire
       const insertUserQuery = 'INSERT INTO users (tel) VALUES (?)';
       db.query(insertUserQuery, [tel], (err, result) => {
         if (err) {
@@ -88,7 +164,6 @@ router.post('/auth', (req, res) => {
           return res.status(500).json({ message: 'Erreur lors de l\'insertion de l\'utilisateur' });
         }
 
-        // Création du token JWT
         const userId = result.insertId;
         const token = jwt.sign({ id: userId, tel }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(201).json({ id: userId, token, message: 'Inscription réussie' });
@@ -179,14 +254,28 @@ router.get('/language/:language', (req, res) => {
 });
 
 
-router.post('/addCantiques', (req, res) => {
-  const { categorie_id, titre, text, audio_path, language } = req.body;
-  if (!titre || !language) {
-    return res.status(400).json({ message: 'Le titre et la langue sont requis' });
+router.post('/addCantiques', upload.single('audioFile'), async (req, res) => {
+  const { categorie_id, titre, text, language } = req.body;
+  const audioFile = req.file;
+
+  if (!titre || !language || !audioFile) {
+    return res.status(400).json({ message: 'Le titre, la langue et le fichier audio sont requis' });
   }
 
+  // Envoyer le fichier audio vers Firebase Storage
+  const destination = 'audio/cantiques/' + audioFile.filename;
+  const options = {
+    destination: destination,
+    metadata: {
+      contentType: audioFile.mimetype
+    }
+  };
+
+  await bucket.upload(audioFile.path, options);
+
+  // Insérer les données dans la base de données
   const insertQuery = 'INSERT INTO cantique (categorie_id, titre, text, audio_path, language) VALUES (?, ?, ?, ?, ?)';
-  db.query(insertQuery, [categorie_id, titre, text, audio_path, language], (err, result) => {
+  db.query(insertQuery, [categorie_id, titre, text, destination, language], (err, result) => {
     if (err) {
       console.error('Erreur lors de l\'insertion du cantique:', err);
       return res.status(500).json({ message: 'Erreur lors de l\'insertion du cantique' });
@@ -240,23 +329,117 @@ router.get('/formations/:id', (req, res) => {
 });
 
 /// route pour ajouter formation
-  router.post('/Addformations', (req, res) => {
-    const { categorie_id, titre, description, lien_formation } = req.body;
-    db.query('INSERT INTO formation_pro (categorie_id, titre, description, lien_formation) VALUES (?, ?, ?, ?)',
-        [categorie_id, titre, description, lien_formation],
-        (err, result) => {
-            if (err) {
-                console.error("Erreur lors de l'ajout de la formation:", err);
-                res.status(500).send("Erreur lors de l'ajout de la formation");
-            } else {
-                res.status(201).json({ message: 'Formation ajoutée avec succès', id: result.insertId });
-            }
+router.post('/Addformations', upload.single('fichier'), async (req, res) => {
+  const { categorie_id, titre, description } = req.body;
+  const file = req.file;
+
+  if (!titre || !categorie_id || !file) {
+    return res.status(400).json({ message: 'Le titre, la catégorie et le fichier sont requis' });
+  }
+
+  try {
+    const destination = 'formations/dossier/' + file.filename;
+    const options = {
+      destination: destination,
+      metadata: {
+        contentType: file.mimetype
+      }
+    };
+
+    await bucket.upload(file.path, options);
+
+    // Supprimer le fichier local après l'upload
+    fs.unlink(file.path, (err) => {
+      if (err) {
+        console.error('Erreur lors de la suppression du fichier local:', err);
+      }
+    });
+
+    const insertQuery = 'INSERT INTO formation_pro (categorie_id, titre, description, lien_formation) VALUES (?, ?, ?, ?)';
+    db.query(insertQuery, [categorie_id, titre, description, destination], (err, result) => {
+      if (err) {
+        console.error("Erreur lors de l'ajout de la formation:", err);
+        return res.status(500).json({ message: 'Erreur lors de l\'ajout de la formation' });
+      }
+      res.status(201).json({ message: 'Formation ajoutée avec succès', id: result.insertId });
+    });
+  } catch (error) {
+    console.error("Erreur lors de l'upload du fichier:", error);
+    res.status(500).json({ message: "Erreur lors de l'upload du fichier" });
+  }
+});
+
+
+// Route pour ajouter une église céleste
+router.post('/addEgliseCeleste', upload.fields([
+  { name: 'image', maxCount: 1 },
+  { name: 'image1', maxCount: 1 },
+  { name: 'image2', maxCount: 1 }
+]), async (req, res) => {
+  const { categorie_id, nom, adresse } = req.body;
+  const files = req.files;
+
+  if (!categorie_id || !nom || !files['image'] || !files['image1'] || !files['image2']) {
+    return res.status(400).json({ message: "Tous les champs sont requis" });
+  }
+
+  try {
+    const uploadFile = async (file) => {
+      const destination = `eglise_celeste/${Date.now()}_${file.originalname}`;
+      await bucket.upload(file.path, {
+        destination: destination,
+        metadata: {
+          contentType: file.mimetype,
+        },
+      });
+      return destination;
+    };
+
+    const imagePath = await uploadFile(files['image'][0]);
+    const imagePath1 = await uploadFile(files['image1'][0]);
+    const imagePath2 = await uploadFile(files['image2'][0]);
+
+    const query = 'INSERT INTO eglise_celeste (categorie_id, nom, adresse, image, image1, image2) VALUES (?, ?, ?, ?, ?, ?)';
+    const [result] = await db.query(query, [categorie_id, nom, adresse, imagePath, imagePath1, imagePath2]);
+
+    // Supprimer les fichiers locaux après l'upload
+    const deleteLocalFiles = (filePaths) => {
+      filePaths.forEach((filePath) => {
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error('Erreur lors de la suppression du fichier local:', filePath, err);
+          }
         });
+      });
+    };
+
+    deleteLocalFiles([files['image'][0].path, files['image1'][0].path, files['image2'][0].path]);
+
+    res.status(201).json({ id: result.insertId, message: "Église céleste ajoutée avec succès" });
+  } catch (error) {
+    console.error("Eglise ajouter:", error);
+    res.status(500).json({ message: "Eglise ajouter" });
+  }
+});
+
+router.get('/alleglisesceleste', (req, res) => {
+  // Requête SQL pour récupérer toutes les églises célestes
+  const query = 'SELECT * FROM eglise_celeste';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Erreur lors de la récupération des églises célestes:", err);
+      return res.status(500).json({ message: "Erreur lors de la récupération des églises célestes" });
+    }
+
+    // Envoi de la réponse avec les résultats
+    res.status(200).json(results);
+  });
 });
 
 router.post('/cantiques', upload.single('audioFile'), (req, res) => {
   // Récupération des données envoyées avec la requête POST
-  const { categorie_id, titre, text } = req.body;
+  const { categorie_id, titre, text, language  } = req.body;
   const audioFile = req.file; // Contient les informations sur le fichier audio
 
   // Vérification que toutes les données requises sont présentes
@@ -286,7 +469,7 @@ router.post('/cantiques', upload.single('audioFile'), (req, res) => {
 // Ajoutez d'autres routes pour les autres tables ici...
 
 router.get('/allcantiques', (req, res) => {
-    db.query('SELECT id, titre FROM cantique', (err, results) => {
+    db.query('SELECT id, titre, audio_path, language, text FROM cantique', (err, results) => {
       if (err) {
         console.error("Erreur lors de la récupération des cantiques:", err);
         res.status(500).send("Erreur lors de la récupération des cantiques");
@@ -318,42 +501,64 @@ router.post('/categories', (req, res) => {
     });
   });
 
-  router.post('/documents', (req, res) => {
-    // Récupération des données envoyées avec la requête POST
-    const { categorie_id, titre, description, fichier } = req.body;
+  router.post('/Addedocumentsceleste', upload.single('fichier'), async (req, res) => {
+    const { categorie_id, titre, description } = req.body;
+    const file = req.file;
   
-    // Vérification que toutes les données requises sont présentes
-    if (!categorie_id || !titre || !fichier) {
+    if (!categorie_id || !titre || !file) {
       return res.status(400).json({ message: "Tous les champs sont requis" });
     }
   
-    // Requête SQL pour insérer le document céleste dans la base de données
-    const query = 'INSERT INTO document_celeste (categorie_id, titre, description, fichier) VALUES (?, ?, ?, ?)';
-    db.query(query, [categorie_id, titre, description, fichier], (err, result) => {
-      if (err) {
-        console.error("Erreur lors de l'ajout du document céleste:", err);
-        return res.status(500).json({ message: "Erreur lors de l'ajout du document céleste" });
-      }
+    try {
+      const destination = 'documents_celestes/' + file.filename;
+      const options = {
+        destination: destination,
+        metadata: {
+          contentType: file.mimetype
+        }
+      };
   
-      // Envoi de la réponse avec l'ID du nouveau document ajouté
-      res.status(201).json({ id: result.insertId, message: "Document céleste ajouté avec succès" });
-    });
+      await bucket.upload(file.path, options);
+  
+      // Supprimer le fichier local après l'upload
+      fs.unlink(file.path, (err) => {
+        if (err) {
+          console.error('Erreur lors de la suppression du fichier local:', err);
+        }
+      });
+  
+      const query = 'INSERT INTO document_celeste (categorie_id, titre, description, fichier) VALUES (?, ?, ?, ?)';
+      db.query(query, [categorie_id, titre, description, destination], (err, result) => {
+        if (err) {
+          console.error("Erreur lors de l'ajout du document céleste:", err);
+          return res.status(500).json({ message: "Erreur lors de l'ajout du document céleste" });
+        }
+  
+        res.status(201).json({ id: result.insertId, message: "Document céleste ajouté avec succès" });
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'upload du fichier:", error);
+      res.status(500).json({ message: "Erreur lors de l'upload du fichier" });
+    }
   });
 
-  router.get('/showdocuments', (req, res) => {
-    // Requête SQL pour récupérer l'ID et le titre de tous les documents célestes
-    const query = 'SELECT id, titre FROM document_celeste';
-  
-    db.query(query, (err, results) => {
-      if (err) {
-        console.error("Erreur lors de la récupération des documents célestes:", err);
-        return res.status(500).json({ message: "Erreur lors de la récupération des documents célestes" });
-      }
-  
-      // Envoi de la réponse avec les résultats
-      res.status(200).json(results);
-    });
+ // routes.js
+
+router.get('/showdocuments', (req, res) => {
+  // Requête SQL pour récupérer l'ID et le titre de tous les documents célestes
+  const query = 'SELECT id, titre, description, fichier FROM document_celeste';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Erreur lors de la récupération des documents célestes:", err);
+      return res.status(500).json({ message: "Erreur lors de la récupération des documents célestes" });
+    }
+
+    // Envoi de la réponse avec les résultats
+    res.status(200).json(results);
   });
+});
+
 
   // Route pour afficher les détails d'un document céleste par ID
 router.get('/showdocuments/:id', (req, res) => {
@@ -642,6 +847,9 @@ router.post('/ajouter-critique', (req, res) => {
       });
     });
   });
+
+
+  
 
 
 

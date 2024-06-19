@@ -4,6 +4,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); 
 const routes = require('./routes');
 const fs = require('fs');
+const admin = require('firebase-admin');
+
+
+if (!admin.apps.length) {
+  // Initialisez Firebase Admin SDK avec vos informations d'authentification
+  const serviceAccount = require('serviceAccountKey.json'); // Remplacez par le chemin de votre fichier serviceAccountKey.json
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    // Ajoutez toute autre configuration nécessaire
+  });
+}
 
 const app = express();
 
@@ -20,6 +32,9 @@ app.use('/api/files/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Utilisation des routes API
 app.use('/api', routes);
+
+//app.use('/api', egliseCelesteRoutes);
+
 
 app.get('/api/files', (req, res) => {
   fs.readdir(uploadDir, (err, files) => {
@@ -39,6 +54,29 @@ app.get('/api/files', (req, res) => {
 
       res.json(fileDetails);
   });
+});
+
+app.get('/api/firebase/*', async (req, res) => {
+  const filePath = req.params[0]; // Récupérer le chemin complet du fichier depuis l'URL
+
+  try {
+    const bucket = admin.storage().bucket();
+
+    const file = bucket.file(filePath); // Utilisez directement le chemin complet du fichier
+
+    const [exists] = await file.exists();
+
+    if (exists) {
+      const stream = file.createReadStream();
+      stream.pipe(res);
+    } else {
+      console.error('Le fichier n\'existe pas dans Firebase Storage');
+      res.status(404).json({ message: 'Le fichier n\'existe pas' });
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération du fichier depuis Firebase Storage:', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération du fichier' });
+  }
 });
 
 app.get('/api/files/:fileName', (req, res) => {
