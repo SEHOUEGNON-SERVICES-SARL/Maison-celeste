@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function() {
     try {
-      const response = await axios.get('http://localhost:3000/api/allcantiques');
+      const response = await axios.get('https://maisonccc.onrender.com/api/allcantiques');
       const cantiques = response.data;
 
       const cantiquesListContainer = document.getElementById('cantiquesList');
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const audioPlayer = document.createElement('audio');
         audioPlayer.controls = true;
         audioPlayer.classList.add('w-full', 'px-4', 'pb-4');
-        audioPlayer.innerHTML = `<source src="http://localhost:3000/api/firebase/${cantique.audio_path}" type="audio/mpeg">
+        audioPlayer.innerHTML = `<source src="https://maisonccc.onrender.com/api/firebase/${cantique.audio_path}" type="audio/mpeg">
                                  Your browser does not support the audio element.`;
 
         contentWrapper.appendChild(title);

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   
     try {
       // Récupérer les acapelas depuis l'API
-      const response = await fetch('http://localhost:3000/api/acapela');
+      const response = await fetch('https://maisonccc.onrender.com/api/acapela');
       const acapelas = await response.json();
   
       // Parcourir les résultats et créer les cartes d'acapela
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const audioPlayer = document.createElement('audio');
     audioPlayer.controls = true;
     audioPlayer.classList.add('w-full', 'px-4', 'pb-4');
-    audioPlayer.innerHTML = `<source src="http://localhost:3000/api/firebase/${acapela.lien_audio}" type="audio/mpeg">
+    audioPlayer.innerHTML = `<source src="https://maisonccc.onrender.com/api/firebase/${acapela.lien_audio}" type="audio/mpeg">
                              Your browser does not support the audio element.`;
   
     acapelaCard.appendChild(image);

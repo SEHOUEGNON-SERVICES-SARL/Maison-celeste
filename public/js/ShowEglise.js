@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Fonction pour récupérer les églises depuis l'API
     async function fetchEglises(page) {
       try {
-        const response = await fetch(`http://localhost:3000/api/alleglisesceleste?page=${page}&limit=${eglisesPerPage}`);
+        const response = await fetch(`https://maisonccc.onrender.com/api/alleglisesceleste?page=${page}&limit=${eglisesPerPage}`);
         const data = await response.json();
         return data;
       } catch (error) {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   
       const image = document.createElement('img');
       image.classList.add('w-full', 'h-48', 'object-cover', 'mb-4');
-      image.src = `http://localhost:3000/api/firebase/${eglise.image}`;
+      image.src = `https://maisonccc.onrender.com/api/firebase/${eglise.image}`;
       image.alt = eglise.nom;
   
       const title = document.createElement('h2');
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Fonction pour récupérer le nombre total d'églises
     async function fetchEglisesCount() {
       try {
-        const response = await fetch('http://localhost:3000/api/alleglisecleste/count');
+        const response = await fetch('https://maisonccc.onrender.com/api/alleglisecleste/count');
         const data = await response.json();
         return data.count;
       } catch (error) {

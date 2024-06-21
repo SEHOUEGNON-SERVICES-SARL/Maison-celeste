@@ -9,7 +9,7 @@ document.getElementById('addCantiqueForm').addEventListener('submit', async func
     formData.append('audioFile', this.audioFile.files[0]);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/addCantiques', formData, {
+      const response = await axios.post('https://maisonccc.onrender.com/api/addCantiques', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
