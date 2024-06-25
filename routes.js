@@ -315,16 +315,16 @@ router.get('/cantiques/:id', (req, res) => {
 router.get('/formations/:id', (req, res) => {
   const formationId = req.params.id;
   db.query('SELECT * FROM formation_pro WHERE id = ?', [formationId], (err, results) => {
-      if (err) {
-          console.error("Erreur lors de la récupération des détails de la formation:", err);
-          res.status(500).send("Erreur lors de la récupération des détails de la formation");
+    if (err) {
+      console.error("Erreur lors de la récupération des détails de la formation:", err);
+      res.status(500).send("Erreur lors de la récupération des détails de la formation");
+    } else {
+      if (results.length > 0) {
+        res.status(200).json(results[0]); // Envoie les détails du premier résultat (il ne devrait y en avoir qu'un car l'ID est unique)
       } else {
-          if (results.length > 0) {
-              res.status(200).json(results[0]); // Envoie les détails du premier résultat (il ne devrait y en avoir qu'un car l'ID est unique)
-          } else {
-              res.status(404).send("Formation non trouvée");
-          }
+        res.status(404).send("Formation non trouvée");
       }
+    }
   });
 });
 
@@ -434,6 +434,24 @@ router.get('/alleglisesceleste', (req, res) => {
 
     // Envoi de la réponse avec les résultats
     res.status(200).json(results);
+  });
+});
+
+router.get('/alleglisesceleste/:id', (req, res) => {
+  const egliseId = req.params.id;
+  const query = 'SELECT * FROM eglise_celeste WHERE id = ?';
+
+  db.query(query, [egliseId], (err, results) => {
+    if (err) {
+      console.error("Erreur lors de la récupération de l'église céleste:", err);
+      return res.status(500).json({ message: "Erreur lors de la récupération de l'église céleste" });
+    }
+
+    if (results.length > 0) {
+      res.status(200).json(results[0]); // Envoie les détails de la première église trouvée
+    } else {
+      res.status(404).json({ message: "Église céleste non trouvée" });
+    }
   });
 });
 

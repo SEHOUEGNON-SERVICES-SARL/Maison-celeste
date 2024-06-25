@@ -8,7 +8,7 @@ document.getElementById('addFormationForm').addEventListener('submit', async fun
     formData.append('fichier', this.fichier.files[0]);
 
     try {
-      const response = await axios.post('https://maisonccc.onrender.com/api/Addformations', formData, {
+      const response = await axios.post('https://maison-celeste.onrender.com/api/Addformations', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

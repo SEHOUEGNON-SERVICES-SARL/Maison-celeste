@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   
     try {
       // Appel à votre API pour récupérer les statistiques
-      const response = await axios.get('https://maisonccc.onrender.com/api/totals'); // Remplacez par votre URL d'API
+      const response = await axios.get('https://maison-celeste.onrender.com/api/totals'); // Remplacez par votre URL d'API
       const stats = response.data;
   
       // Données pour les graphiques

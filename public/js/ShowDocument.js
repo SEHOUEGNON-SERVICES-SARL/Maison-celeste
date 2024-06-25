@@ -1,7 +1,7 @@
 // Fonction pour récupérer et afficher les informations des documents célestes
 async function fetchAndDisplayDocuments() {
     try {
-        const response = await fetch('https://maisonccc.onrender.com/api/showdocuments');
+        const response = await fetch('https://maison-celeste.onrender.com/api/showdocuments');
         const data = await response.json();
 
         // Sélectionner l'élément HTML où les informations seront affichées
@@ -14,7 +14,7 @@ async function fetchAndDisplayDocuments() {
             documentElement.innerHTML = `
                 <h2 class="text-xl font-bold mb-2">${document.titre}</h2>
                 <p class="text-gray-700 mb-4">${document.description}</p>
-                <a href="https://maisonccc.onrender.com/api/firebase/${document.fichier}" 
+                <a href="https://maison-celeste.onrender.com/api/firebase/${document.fichier}" 
                     class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Télécharger</a>
             `;
             documentsContainer.appendChild(documentElement);

@@ -5,7 +5,7 @@ document.getElementById('addEgliseCelesteForm').addEventListener('submit', async
     
 
     try {
-      const response = await axios.post('https://maisonccc.onrender.com/api/addEgliseCeleste', formData, {
+      const response = await axios.post('https://maison-celeste.onrender.com/api/addEgliseCeleste', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

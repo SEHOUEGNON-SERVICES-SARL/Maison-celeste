@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const audioPlayer = document.createElement('audio');
     audioPlayer.controls = true;
     audioPlayer.classList.add('w-full', 'px-4', 'pb-4');
-    audioPlayer.innerHTML = `<source src="https://maisonccc.onrender.com/api/firebase/${acapela.lien_audio}" type="audio/mpeg">
+    audioPlayer.innerHTML = `<source src="https://maison-celeste.onrender.com/api/firebase/${acapela.lien_audio}" type="audio/mpeg">
                              Your browser does not support the audio element.`;
   
     acapelaCard.appendChild(image);
